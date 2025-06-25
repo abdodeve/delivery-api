@@ -16,7 +16,6 @@ async function createApp() {
       forbidNonWhitelisted: true,
     }));
     
-    // Skip seeding on Vercel to avoid issues
     await app.init();
   }
   return app;
@@ -28,7 +27,7 @@ export default async (req: any, res: any) => {
     const httpAdapter = app.getHttpAdapter();
     return httpAdapter.getInstance()(req, res);
   } catch (error) {
-    console.error('Error in serverless function:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Serverless function error:', error);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 };
