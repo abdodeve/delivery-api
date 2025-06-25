@@ -6,6 +6,7 @@ let app: any;
 
 async function createApp() {
   if (!app) {
+    console.log('Creating NestJS app...');
     app = await NestFactory.create(AppModule);
     
     app.enableCors();
@@ -17,17 +18,24 @@ async function createApp() {
     }));
     
     await app.init();
+    console.log('NestJS app created successfully');
   }
   return app;
 }
 
 export default async (req: any, res: any) => {
   try {
+    console.log('Serverless function called:', req.method, req.url);
     const app = await createApp();
     const httpAdapter = app.getHttpAdapter();
-    return httpAdapter.getInstance()(req, res);
+    const handler = httpAdapter.getInstance();
+    return handler(req, res);
   } catch (error) {
     console.error('Serverless function error:', error);
-    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    return res.status(500).json({ 
+      error: 'Internal Server Error', 
+      details: error.message,
+      stack: error.stack 
+    });
   }
 };
