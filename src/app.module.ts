@@ -18,7 +18,7 @@ import { DatabaseModule } from './database/database.module';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: process.env.DATABASE_URL || 'postgresql://postgres.pggstbperagfkdaviige:H@bchi@1994+@aws-0-eu-west-3.pooler.supabase.com:6543/postgres?pgbouncer=true',
+      url: process.env.DATABASE_URL,
       entities: [User, PackageEntity, PackageStatus],
       synchronize: true, // Set to false in production
       ssl: {

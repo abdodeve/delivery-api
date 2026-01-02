@@ -34,12 +34,12 @@ export class PackagesService {
   }
 
   async findAll(user: User): Promise<PackageEntity[]> {
-    if (user.role === Role.ADMIN) {
+    // if (user.role === Role.ADMIN) {
       return this.packageRepository.find({
         relations: ['user', 'statusHistory'],
         order: { createdAt: 'DESC' },
       });
-    }
+    // }
 
     return this.packageRepository.find({
       where: { userId: user.id },
