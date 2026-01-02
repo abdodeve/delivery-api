@@ -4,7 +4,6 @@ import { AppModule } from './app.module';
 import { SeedingService } from './database/seeding.service';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
@@ -18,12 +17,13 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
   }));
 
-    // Auto-seed in development
+  // Auto-seed in development
   if (process.env.NODE_ENV !== 'production') {
     const seedingService = app.get(SeedingService);
     await seedingService.seedAll();
   }
   
+<<<<<<< HEAD
 
     // Swagger configuration
   const config = new DocumentBuilder()
@@ -40,6 +40,10 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
   
   await app.listen(3000);
+=======
+  await app.listen(process.env.PORT || 3000);
+>>>>>>> 09b148f452c742a20cde8fd5e7e255b5b1b1f451
   console.log('Application is running on: http://localhost:3000');
 }
+
 bootstrap();
